@@ -30,20 +30,29 @@ Se utiliza **[SQLite]** como motor de base de datos para garantizar la persisten
 ## 3. Endpoints y Operaciones HTTP
 
 La API expone los siguientes endpoints demostrando las relaciones y operaciones CRUD:
+#  API Endpoints
 
 | Endpoint | Método | Descripción | Relación |
 |----------|--------|------------|----------|
 | `/users/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todos los usuarios | N/A |
 | `/users/` | ![POST](https://img.shields.io/badge/POST-green) | Crea un nuevo usuario | N/A |
-| `/users/{id}` | ![PATCH](https://img.shields.io/badge/PATCH-orange) | Actualiza datos de un usuario | N/A |
+| `/users/{user_id}` | ![PATCH](https://img.shields.io/badge/PATCH-orange) | Actualiza datos de un usuario | N/A |
+| `/users/{user_id}` | ![DELETE](https://img.shields.io/badge/DELETE-red) | Desactiva un usuario (soft delete) | N/A |
+| `/users/reactivate/{user_id}` | ![PATCH](https://img.shields.io/badge/PATCH-orange) | Reactiva un usuario | N/A |
 | `/auth/login` | ![POST](https://img.shields.io/badge/POST-green) | Autenticación de usuario | N/A |
 | `/products/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todos los productos | N:M con Orders |
-| `/products/` | ![POST](https://img.shields.io/badge/POST-green) | Crea un producto | N:M con Orders |
+| `/products/` | ![POST](https://img.shields.io/badge/POST-green) | Crea un producto (admin) | N:M con Orders |
+| `/products/{product_id}` | ![PATCH](https://img.shields.io/badge/PATCH-orange) | Actualiza un producto (admin) | N:M con Orders |
+| `/products/{product_id}` | ![DELETE](https://img.shields.io/badge/DELETE-red) | Elimina un producto (admin) | N:M con Orders |
+| `/cart/` | ![GET](https://img.shields.io/badge/GET-blue) | Obtener el carrito activo del usuario | 1:1 con Users |
+| `/cart/add/{product_id}` | ![POST](https://img.shields.io/badge/POST-green) | Agrega un producto al carrito | 1:1 con Users, N:M con Products |
+| `/cart/remove/{product_id}` | ![DELETE](https://img.shields.io/badge/DELETE-red) | Elimina un producto del carrito | 1:1 con Users, N:M con Products |
+| `/cart/clear` | ![DELETE](https://img.shields.io/badge/DELETE-red) | Vacía el carrito completo | 1:1 con Users, N:M con Products |
+| `/orders/checkout` | ![POST](https://img.shields.io/badge/POST-green) | Realiza checkout y crea una orden | 1:N con Users, N:M con Products |
+| `/orders/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todas las órdenes | 1:N con Users, N:M con Products |
+| `/orders/{order_id}` | ![DELETE](https://img.shields.io/badge/DELETE-red) | Elimina una orden (soft delete) | 1:N con Users, N:M con Products |
 | `/customers/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todos los clientes | 1:1 con Users |
 | `/customers/` | ![POST](https://img.shields.io/badge/POST-green) | Crea un cliente | 1:1 con Users |
-| `/orders/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todas las órdenes | 1:N con Customers, N:M con Products |
-| `/orders/` | ![POST](https://img.shields.io/badge/POST-green) | Crea una orden | 1:N con Customers, N:M con Products |
-| `/orders/{id}` | ![DELETE](https://img.shields.io/badge/DELETE-red) | Elimina una orden (soft delete) | 1:N con Customers, N:M con Products |
 
 
 
