@@ -1,12 +1,16 @@
 # Proyecto Integrador - FastAPI
 
-## 1. Objetivo del Proyecto
-El objetivo de este proyecto es desarrollar un sistema integrador que permita gestionar **usuarios, clientes, productos y órdenes** mediante una API REST construida con FastAPI. El proyecto busca demostrar buenas prácticas, relaciones complejas entre modelos y permitir la retroalimentación de profesores para consolidar la experiencia de desarrollo.
+## 1. Descripcion del proyecto
+El proyecto consiste en desarrollar una plataforma de comercio electrónico que permita a los usuarios registrarse, buscar productos, agregarlos al carrito y realizar compras de manera segura. La aplicación contará con un panel de administración para gestionar productos, usuarios y pedidos, asegurando una experiencia completa tanto para clientes como para administradores.
+
+---
+## 2. Objetivo general
+Desarrollar una plataforma de comercio electrónico funcional y segura que facilite la compra y venta de productos, permitiendo la gestión  de inventario y pedidos.
 
 ---
 
 ## 2. Persistencia de Datos
-Se utiliza **[SQLite/PostgreSQL/MySQL]** como motor de base de datos para garantizar la persistencia de la información.  
+Se utiliza **[SQLite]** como motor de base de datos para garantizar la persistencia de la información.  
 
 ### Tablas principales:
 - `Users`
@@ -29,17 +33,17 @@ La API expone los siguientes endpoints demostrando las relaciones y operaciones 
 
 | Endpoint | Método | Descripción | Relación |
 |----------|--------|------------|----------|
-| `/users/` | ![#61affe](https://via.placeholder.com/15/61affe/000000?text=+) `GET` | Lista todos los usuarios | N/A |
-| `/users/` | ![#49cc90](https://via.placeholder.com/15/49cc90/000000?text=+) `POST` | Crea un nuevo usuario | N/A |
-| `/users/{id}` | ![#fca130](https://via.placeholder.com/15/fca130/000000?text=+) `PATCH` | Actualiza datos de un usuario | N/A |
-| `/auth/login` | ![#49cc90](https://via.placeholder.com/15/49cc90/000000?text=+) `POST` | Autenticación de usuario | N/A |
-| `/products/` | ![#61affe](https://via.placeholder.com/15/61affe/000000?text=+) `GET` | Lista todos los productos | N:M con Orders |
-| `/products/` | ![#49cc90](https://via.placeholder.com/15/49cc90/000000?text=+) `POST` | Crea un producto | N:M con Orders |
-| `/customers/` | ![#61affe](https://via.placeholder.com/15/61affe/000000?text=+) `GET` | Lista todos los clientes | 1:1 con Users |
-| `/customers/` | ![#49cc90](https://via.placeholder.com/15/49cc90/000000?text=+) `POST` | Crea un cliente | 1:1 con Users |
-| `/orders/` | ![#61affe](https://via.placeholder.com/15/61affe/000000?text=+) `GET` | Lista todas las órdenes | 1:N con Customers, N:M con Products |
-| `/orders/` | ![#49cc90](https://via.placeholder.com/15/49cc90/000000?text=+) `POST` | Crea una orden | 1:N con Customers, N:M con Products |
-| `/orders/{id}` | ![#f93e3e](https://via.placeholder.com/15/f93e3e/000000?text=+) `DELETE` | Elimina una orden (soft delete) | 1:N con Customers, N:M con Products |
+| `/users/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todos los usuarios | N/A |
+| `/users/` | ![POST](https://img.shields.io/badge/POST-green) | Crea un nuevo usuario | N/A |
+| `/users/{id}` | ![PATCH](https://img.shields.io/badge/PATCH-orange) | Actualiza datos de un usuario | N/A |
+| `/auth/login` | ![POST](https://img.shields.io/badge/POST-green) | Autenticación de usuario | N/A |
+| `/products/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todos los productos | N:M con Orders |
+| `/products/` | ![POST](https://img.shields.io/badge/POST-green) | Crea un producto | N:M con Orders |
+| `/customers/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todos los clientes | 1:1 con Users |
+| `/customers/` | ![POST](https://img.shields.io/badge/POST-green) | Crea un cliente | 1:1 con Users |
+| `/orders/` | ![GET](https://img.shields.io/badge/GET-blue) | Lista todas las órdenes | 1:N con Customers, N:M con Products |
+| `/orders/` | ![POST](https://img.shields.io/badge/POST-green) | Crea una orden | 1:N con Customers, N:M con Products |
+| `/orders/{id}` | ![DELETE](https://img.shields.io/badge/DELETE-red) | Elimina una orden (soft delete) | 1:N con Customers, N:M con Products |
 
 
 
