@@ -1,13 +1,19 @@
+from contextlib import contextmanager, asynccontextmanager
+
 from fastapi import FastAPI, Request, status
 
-from db import create_all_tables, engine, SessionDep
+from db import init_db, SessionDep
 from .routers import users, customers, orderd
 from app.auth import auth_router
 from app.routers import prodcuts
 from fastapi.staticfiles import StaticFiles
 
 
-app = FastAPI(lifespan=create_all_tables)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db(app)
+    yield
+app = FastAPI(lifespan=lifespan)
 
 
 # -----------------------------
