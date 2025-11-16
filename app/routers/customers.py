@@ -2,14 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import select
 from db import SessionDep
 from models import Cart, CartItem, Product, User
-from app.auth.auth_router import get_current_user
+
 from uuid import UUID
 
 router = APIRouter(prefix="/cart", tags=["Cart"])
 
 # Obtener el carrito activo del usuario
 @router.get("/", response_model=list[dict])
-async def get_cart(session: SessionDep, user: User = Depends(get_current_user)):
+async def get_cart(session: SessionDep):
     cart = session.exec(select(Cart).where(Cart.customer_id == user.id, Cart.is_active == True)).first()
 
     if not cart:
@@ -41,8 +41,7 @@ async def get_cart(session: SessionDep, user: User = Depends(get_current_user)):
 async def add_to_cart(
     product_id: UUID,
     quantity: int,
-    session: SessionDep,
-    user: User = Depends(get_current_user)
+    session: SessionDep
 ):
     product = session.get(Product, product_id)
     if not product:
@@ -72,7 +71,7 @@ async def add_to_cart(
 
 # Eliminar producto del carrito
 @router.delete("/remove/{product_id}")
-async def remove_from_cart(product_id: UUID, session: SessionDep, user: User = Depends(get_current_user)):
+async def remove_from_cart(product_id: UUID, session: SessionDep):
     cart = session.exec(select(Cart).where(Cart.customer_id == user.id, Cart.is_active == True)).first()
     if not cart:
         raise HTTPException(status_code=404, detail="Cart not found")
@@ -88,7 +87,7 @@ async def remove_from_cart(product_id: UUID, session: SessionDep, user: User = D
 
 # Vaciar carrito
 @router.delete("/clear")
-async def clear_cart(session: SessionDep, user: User = Depends(get_current_user)):
+async def clear_cart(session: SessionDep):
     cart = session.exec(select(Cart).where(Cart.customer_id == user.id, Cart.is_active == True)).first()
     if not cart:
         raise HTTPException(status_code=404, detail="Cart not found")
