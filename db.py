@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from fastapi import Depends
 from typing import Annotated
-#from sqlmodel import Session,create_engine,SQLMode
+from sqlmodel import SQLModel
 #async
 import os
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession,create_async_engine, AsyncEngine
 from dotenv import load_dotenv
-from sqlmodel import SQLModel
+
 
 # sqlite db
 
@@ -29,13 +29,13 @@ from sqlmodel import SQLModel
 # SessionDep = Annotated [Session,Depends(get_session)]
 
 # async db
+load_dotenv()
 
-
-DB_NAME = os.getenv("DATABASE_NAME")
-DB_USER = os.getenv("DATABASE_USER")
-DB_PASSWORD = os.getenv("DATABASE_PASSWORD")
-DB_HOST = os.getenv("DATABASE_HOST")
-DB_PORT = os.getenv("DATABASE_PORT")
+DB_NAME = os.getenv("POSTGRESQL_ADDON_DB")
+DB_USER = os.getenv("POSTGRESQL_ADDON_USER")
+DB_PASSWORD = os.getenv("POSTGRESQL_ADDON_PASSWORD")
+DB_HOST = os.getenv("POSTGRESQL_ADDON_HOST")
+DB_PORT = os.getenv("POSTGRESQL_ADDON_PORT")
 
 CLEVER_URL = (f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 
@@ -54,5 +54,5 @@ async def get_session_clever():
     async with async_session() as session:
         yield session
 
-SessionDep = AsyncSession(async_session, Depends(get_session_clever))
+SessionDep = Annotated[async_session, Depends(get_session_clever)]
 
