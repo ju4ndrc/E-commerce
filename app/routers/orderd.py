@@ -2,12 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import select
 from db import SessionDep
 from models import Cart, CartItem, Order, User
-from app.auth.auth_router import get_current_user
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
 @router.post("/checkout")
-async def checkout(session: SessionDep, user: User = Depends(get_current_user)):
+async def checkout(session: SessionDep, user: User ):
     cart = session.exec(select(Cart).where(Cart.customer_id == user.id, Cart.is_active == True)).first()
     if not cart:
         raise HTTPException(status_code=404, detail="No active cart found")
