@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile,
 from sqlmodel import select
 from db import SessionDep
 from models import Product, User
-from app.auth.auth_router import admin_required
+
 import os
 import shutil
 from uuid import UUID
@@ -18,7 +18,7 @@ async def create_product(
     stock: int = Form(...),
     image: UploadFile = File(...),
 
-    user: User = Depends(admin_required)
+
 ):
     image_url = None
 
@@ -37,7 +37,7 @@ async def create_product(
     return product
 
 @router.get("/", response_model=list[Product])
-async def list_products(session: SessionDep,user: User = Depends(admin_required)):
+async def list_products(session: SessionDep,user: User ):
     return session.exec(select(Product)).all()
 
 @router.patch("/{product_id}", response_model=Product)
@@ -49,7 +49,7 @@ async def update_product(
     price: float = Form(None),
     stock: int = Form(None),
     image: UploadFile = File(None),
-    user: User = Depends(admin_required)
+
 ):
     # Buscar producto
     db_product = session.get(Product, product_id)
@@ -78,7 +78,7 @@ async def update_product(
     session.refresh(db_product)
     return db_product
 @router.delete("/{product_id}")
-async def delete_product(product_id: UUID, session: SessionDep, user: User = Depends(admin_required)):
+async def delete_product(product_id: UUID, session: SessionDep):
     product = session.get(Product, product_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
