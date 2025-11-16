@@ -3,7 +3,7 @@ from typing import Optional,List
 import datetime
 import uuid
 from pydantic import BaseModel, EmailStr, field_validator
-from db import  engine
+from db import  init_db
 from enum import Enum
 
 class RoleEnum(str, Enum):
