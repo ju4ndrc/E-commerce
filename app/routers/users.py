@@ -19,7 +19,7 @@ async def createUser(request:Request,user_data: CreateUser, session: SessionDep)
     return user
 @router.delete("/{user_id}", status_code=status.HTTP_200_OK)
 async def soft_delete_user(user_id: uuid.UUID, session: SessionDep):
-    user_db = session.get(User, user_id)
+    user_db = await session.get(User, user_id)
     if not user_db:
         raise HTTPException(status_code=404, detail="User not found")
 
@@ -28,18 +28,18 @@ async def soft_delete_user(user_id: uuid.UUID, session: SessionDep):
 
     user_db.is_active = False
     session.add(user_db)
-    session.commit()
+    await session.commit()
     return {"message": "User deactivated successfully", "user_id": str(user_id)}
 @router.patch("/reactivate/{user_id}", response_model=User)
 async def reactivate_user(user_id: uuid.UUID, session: SessionDep):
-    user_db = session.get(User, user_id)
+    user_db = await session.get(User, user_id)
     if not user_db:
         raise HTTPException(status_code=404, detail="User not found")
 
     user_db.is_active = True
     session.add(user_db)
-    session.commit()
-    session.refresh(user_db)
+    await session.commit()
+    await session.refresh(user_db)
     return user_db
 @router.get("/",response_model=list[User])
 async def show_users(session:SessionDep):
@@ -49,7 +49,8 @@ async def show_users(session:SessionDep):
     return users
 @router.get("/active", response_model=list[User])
 async def get_users(session: SessionDep):
-    users = session.execute(select(User).where(User.is_active == True)).all()
+    result = await session.execute(select(User).where(User.is_active == True))
+    users = result.scalars().all()
     return users
 @router.get("/{user_id}", response_model=User)
 async def get_user(request:Request,user_id: uuid.UUID, session: SessionDep):
