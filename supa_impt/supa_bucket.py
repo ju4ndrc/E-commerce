@@ -1,10 +1,6 @@
 import os
-from multiprocessing.managers import public_methods
 from typing import Optional
 from fastapi import UploadFile
-from jinja2.bccache import Bucket
-from multipart import file_path
-from pycparser.ply.yacc import resultlimit
 from supabase import create_client, Client
 from dotenv import load_dotenv
 
@@ -35,11 +31,14 @@ async def upload_supabase_bucket(file:UploadFile):
             path = file_path,
             file = file_content,
             file_options = {
-                "content_type": file.content_type,
+                "content_type": file.content_type
             }
-
         )
-        public_url = client.storage.from_(SUPABASE_BUCKET).get_public_url(file_path)
+
+        public_url = client.storage.from_(
+            SUPABASE_BUCKET
+        ).get_public_url(file_path)
+
         return public_url
     except Exception as e:
         raise e
