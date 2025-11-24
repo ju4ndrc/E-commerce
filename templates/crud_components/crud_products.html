@@ -1,0 +1,75 @@
+{%include 'components/headerComponent.html'%}
+<main class="crud-container">
+  <!-- Sección formulario -->
+  <section class="product-form">
+    <h2>Agregar / Editar Producto</h2>
+
+    <form id="form-product">
+      <div class="form-group">
+        <label for="name">Nombre del producto</label>
+        <input type="text" id="name" name="name" placeholder="Ej: Camisa algodón" required>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Precio</label>
+        <input type="number" id="price" name="price" placeholder="Ej: 35000" required>
+      </div>
+
+      <div class="form-group">
+        <label for="stock">Cantidad</label>
+        <input type="number" id="stock" name="stock" placeholder="Ej: 20" required>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Categoría</label>
+        <select id="category" name="category" required>
+          <option value="">Selecciona...</option>
+          <option value="ropa">Ropa</option>
+          <option value="accesorios">Accesorios</option>
+          <option value="tecnologia">Tecnología</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="image">Imagen del producto</label>
+        <input type="file" id="image" name="image" accept="image/*">
+      </div>
+
+      <button type="submit" class="btn-submit">Guardar producto</button>
+    </form>
+  </section>
+
+  <!-- Sección tabla -->
+  <section class="product-table">
+    <h2>Lista de productos</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Categoría</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+            {%for product in products%}
+        <tr>
+          <td>product</td>
+          <td>{{product.name}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.stock}}</td>
+          <td>{{product.description}}</td>
+          <td>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-delete">Delete</button>
+          </td>
+        </tr>
+      {%endfor%}
+      </tbody>
+    </table>
+  </section>
+</main>
+{%include 'components/footerComponent.html'%}

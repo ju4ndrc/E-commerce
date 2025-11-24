@@ -1,45 +1,49 @@
-from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Form
+from fastapi import APIRouter, Request, HTTPException, status, File, UploadFile, Form
 from sqlmodel import select
 from db import SessionDep
 from models import Product, User
-
-import os
-import shutil
+from typing import Optional
 from uuid import UUID
+from supa_impt.supa_bucket import upload_supabase_bucket
+#Templates response
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 router = APIRouter(prefix="/products", tags=["Products"])
-UPLOAD_DIR = "app/static/img"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+templates = Jinja2Templates(directory="templates/crud_components")
 @router.post("/", response_model=Product, status_code=status.HTTP_201_CREATED)
 async def create_product(
+    request: Request,
     session: SessionDep,
     name: str = Form(...),
     description: str = Form(...),
     price: float = Form(...),
     stock: int = Form(...),
-    image: UploadFile = File(...),
+    img:Optional[UploadFile] = File(...),
 
 
 ):
-    image_url = None
-
-    if image:
-        # Guardar imagen físicamente
-        file_path = os.path.join(UPLOAD_DIR, image.filename)
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(image.file, buffer)
-        image_url = f"/static/img/{image.filename}"
-
-    # Crear producto
-    product = Product(name=name,description=description, price=price, stock=stock, img=image_url,owner_id = user.id)
-    session.add(product)
-    session.commit()
-    session.refresh(product)
+    img_url = None
+    if img:
+        try:
+            img_url = await upload_supabase_bucket(img)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        try:
+            new_product = Product(name=name,description=description, price=price, stock=stock, img=img_url)
+            product = Product.model_validate(new_product)
+            session.add(product)
+            await session.commit()
+            await session.refresh(product)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
     return product
 
-@router.get("/", response_model=list[Product])
-async def list_products(session: SessionDep,user: User ):
-    return session.exec(select(Product)).all()
-
+@router.get("/",response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+async def list_products(request:Request,session: SessionDep):
+    result = await session.execute(select(Product))
+    products = result.scalars().all()
+    return templates.TemplateResponse("crud_products.html",
+                                      {"request": request, "products": products})
 @router.patch("/{product_id}", response_model=Product)
 async def update_product(
     product_id: UUID,
@@ -48,20 +52,14 @@ async def update_product(
     description: str = Form(None),
     price: float = Form(None),
     stock: int = Form(None),
-    image: UploadFile = File(None),
+    img: Optional[UploadFile] = File(...),
 
 ):
     # Buscar producto
-    db_product = session.get(Product, product_id)
+    db_product = await session.get(Product, product_id)
     if not db_product:
         raise HTTPException(status_code=404, detail="Product not found")
 
-    # Actualizar imagen si se envía una nueva
-    if image:
-        file_path = os.path.join(UPLOAD_DIR, image.filename)
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(image.file, buffer)
-        db_product.img = f"/static/img/{image.filename}"
 
     # Actualizar los campos enviados
     if name is not None:
@@ -74,14 +72,14 @@ async def update_product(
         db_product.stock = stock
 
     session.add(db_product)
-    session.commit()
-    session.refresh(db_product)
+    await session.commit()
+    await session.refresh(db_product)
     return db_product
 @router.delete("/{product_id}")
 async def delete_product(product_id: UUID, session: SessionDep):
-    product = session.get(Product, product_id)
+    product = await session.get(Product, product_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    session.delete(product)
-    session.commit()
+    await session.delete(product)
+    await session.commit()
     return {"message": "Product deleted successfully"}

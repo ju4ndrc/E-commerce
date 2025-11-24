@@ -14,12 +14,12 @@ class UserBase(SQLModel):
     username: str | None = Field(description="User name")
     email: EmailStr = Field(default=None, unique = True)
     password: str
+    status: bool = Field(default=True)
     img : Optional[str] = Field(description="User image")
 
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
     date: datetime.datetime | None = Field(default_factory=datetime.datetime.now)
-    is_active: bool = Field(default=True)
     role: RoleEnum = Field(default=RoleEnum.CUSTOMER)
 
 

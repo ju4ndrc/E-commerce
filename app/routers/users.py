@@ -1,21 +1,43 @@
 import uuid
 
-from fastapi import APIRouter, status, HTTPException,Request
+from typing import Optional
 
+from fastapi import APIRouter, status, HTTPException,Request,Form,File,UploadFile
 from sqlmodel import select
-
-
 from db import SessionDep
-from models import User,CreateUser,UpdateUser
-
+from models import User,UpdateUser,CreateUser
+from supa_impt.supa_bucket import upload_supabase_bucket
+#Templates response
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 router = APIRouter(prefix="/users", tags=["Users"])
-
+templates = Jinja2Templates(directory="templates")
 @router.post("/", response_model=User, status_code=status.HTTP_201_CREATED, )
-async def createUser(request:Request,user_data: CreateUser, session: SessionDep):
-    user = User.model_validate(user_data)
-    session.add(user)
-    await session.commit()
-    await session.refresh(user)
+async def createUser(
+        request:Request,
+        session: SessionDep,
+        username:str = Form(...),
+        password:str = Form(...),
+        email:str = Form(...),
+        status:bool = Form(True),
+        img:Optional[UploadFile] = File(...)
+        ):
+    img_url = None
+    if img:
+        try:
+            img_url = await upload_supabase_bucket(img)
+            print("img is in the bucket")
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+    try:
+        new_user = CreateUser(username=username, password=password, email=email,status=status, img=img_url)
+        user = User.model_validate(new_user)
+        session.add(user)
+        await session.commit()
+        await session.refresh(user)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
     return user
 @router.delete("/{user_id}", status_code=status.HTTP_200_OK)
 async def soft_delete_user(user_id: uuid.UUID, session: SessionDep):
@@ -42,8 +64,7 @@ async def reactivate_user(user_id: uuid.UUID, session: SessionDep):
     await session.refresh(user_db)
     return user_db
 @router.get("/",response_model=list[User])
-async def show_users(session:SessionDep):
-    query : select(User)
+async def show_users(request:Request,session:SessionDep):
     response = await session.execute(select(User))
     users = response.scalars().all()
     return users
