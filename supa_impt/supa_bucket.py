@@ -6,11 +6,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SUPABASE_URL:str = os.getenv("SUPABASE_URL")
+SUPABASE_URL= os.getenv("SUPABASE_URL")
 
-SUPABASE_KEY:str = os.getenv("SUPABASE_KEY")
+SUPABASE_KEY= os.getenv("SUPABASE_KEY")
 
-SUPABASE_BUCKET:str = os.getenv("SUPABASE_BUCKET")
+SUPABASE_BUCKET= os.getenv("SUPABASE_BUCKET")
 
 _supabase_client : Optional[Client] = None
 
@@ -29,15 +29,14 @@ async def upload_supabase_bucket(file:UploadFile):
         file_path = f"public/{file.filename}"
         result = client.storage.from_(SUPABASE_BUCKET).upload(
             path = file_path,
+
             file = file_content,
-            file_options = {
-                "content_type": file.content_type
-            }
+
+            file_options = {"content_type": file.content_type}
+
         )
 
-        public_url = client.storage.from_(
-            SUPABASE_BUCKET
-        ).get_public_url(file_path)
+        public_url = client.storage.from_(SUPABASE_BUCKET).get_public_url(file_path)
 
         return public_url
     except Exception as e:

@@ -1,0 +1,808 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* header */
+
+/* Aqui inicia estilos del header */
+.header-container{
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  }
+  .img-logo {
+    width: 150px;
+    padding-top: 20px;
+  }
+/* Carrito */
+#car-page{
+    color: inherit;
+    text-decoration: none;
+}
+.car{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+}
+
+.car svg {
+  width: 28px;
+  height: 28px;
+}
+  .menu {
+    flex-basis: 100%;
+  }
+
+
+  /* Oculta la lista del menú por defecto */
+  .menu-list {
+    display: none;
+  }
+
+  /* Muestra la lista del menú cuando el checkbox está marcado */
+  .menu-toggle:checked ~ .menu-list {
+    display: block;
+  }
+
+  /* Oculta el input asociado al label que despliega el icono del menu hamburguesa */
+  .visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+  }
+
+  /* Estilos generales del menú */
+  .menu {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  .menu-icon{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .menu-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 2rem;
+    justify-content: end;
+    position: absolute;
+    top: 69px;
+    left: 0;
+    gap: 0;
+    width: 100%;
+  }
+
+  .menu-item {
+    background: white;
+    padding: .5rem 1.6rem;
+    border-bottom: 1px solid black;
+    text-align: center;
+  }
+
+  .menu-list .menu-item a {
+    color: black;
+    display: block;
+    text-decoration: none;
+  }
+  .car{
+    display: flex;
+    padding-left: 20px;
+    text-decoration: none;
+  }
+
+  /* .sub-menu .menu-item {
+      border: 1px dotted blue;
+      box-sizing: border-box;
+  }
+  .sub-menu .menu-item .sub-menu {
+     background-color: orange;
+  } */
+
+  /* Estilos para dispositivos móviles */
+  @media screen and (max-width: 767px) {
+    /* Disposición vertical */
+
+    .menu {
+      flex-direction: column;
+    }
+
+    /* Estilos para el botón de menú */
+
+
+    .menu-list {
+      display: none;
+      overflow: auto;
+      height: 100%;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      z-index: 999;
+    }
+  .car {
+
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+    .menu-toggle:checked ~ .menu-list {
+      display: flex;
+    }
+
+    /* Estilos para submenús */
+    .sub-menu {
+      display: none;
+    }
+
+    .menu-item:hover .sub-menu {
+      display: flex;
+      flex-direction: column;
+      position: static;
+    }
+  }
+
+  /* Estilos para dispositivos de escritorio */
+  @media screen and (min-width: 768px) {
+    /* Disposición horizontal */
+    .menu {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .menu-icon {
+      display: none;
+      justify-content: end;
+      align-items: center;
+    }
+
+    /* Estilos para el botón de menú */
+    .menu-toggle {
+      display: none;
+    }
+
+
+    .menu-list {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      top: auto;
+      z-index: 999;
+    }
+
+    .menu-item {
+      background: white;
+      border-bottom: 1px solid white;
+    }
+
+    /* Estilos para submenús */
+    .sub-menu {
+      position: absolute;
+      z-index: 1;
+      display: none;
+      padding: 0;
+    }
+
+    .menu-item:hover .sub-menu {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      width: 100%;
+    }
+  }
+  /* Aqui finaliza estilos del header */
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+  .header {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      margin: 0%;
+      width: 100%;
+      height: 8rem;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+  }
+
+  .menu-principal {
+      justify-content: stretch;
+      display: flex;
+      list-style: none;
+      gap: 5rem;
+      padding-right: 5rem;
+  }
+
+
+  /* main */
+  /* main: section.back-img */
+  .carousel-inner img{
+    height: 74vh;
+    object-fit: cover;
+  }
+  #carouselExample{
+    margin-top: 9.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .go-login {
+      color: white;
+  }
+  .btn-login,
+  .btn-access-now {
+      background-color: #42A5FF;
+      color: black;
+      text-decoration: none;
+      padding: .4rem 1.6rem;
+      font-weight: 600;
+      display: block;
+      margin: 0 auto;
+      margin-top: 2rem;
+      border-radius: 0.4rem;
+  }
+  .btn-login {
+      width: 6rem;
+  }
+  /* main: section.section-about*/
+
+  section.section-about {
+      display: flex;
+      flex-direction: column;
+      padding: 0 1rem;
+      bottom: 0;
+      position: relative;
+      /* width: 100vw; */
+  }
+
+  .content-about {
+      background: white;
+      padding: 2.6rem 1.2rem 1.2rem 1.2rem;
+      text-align: justify;
+  }
+  .section-about .content-about {
+      flex-basis: 60%;
+      height: 440px;
+      position: relative;
+  }
+  .section-about .image-about {
+      flex-basis: 40%;
+      height: 320px;
+      width: 100%;
+      flex-direction: column;
+  }
+  /* main: section.servicios */
+  .about-image img {
+      width: 100%;
+      height: auto;
+      padding: 50px;
+  }
+
+  section.section-servicios {
+      padding: 0 1rem;
+  }
+  .section-servicios h2 {
+      text-align: center;
+      margin: 1rem 0;
+  }
+
+  .servicios {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+      section.section-about {
+          width: 92%;
+          margin: 5rem auto;
+      }
+  }
+  @media (min-width: 992px) {
+      .content-about h2 {
+          margin: 2rem 0;
+      }
+      .content-about {
+          padding: 1.4rem 7rem 1.6rem 1.6rem;
+      }
+      section.section-about {
+          flex-direction: row;
+      }
+      .section-about .image-about {
+          position: absolute;
+          width: 48%;
+          right: 15px;
+          top: 60px;
+      }
+  }
+  @media (min-width: 1200px) {
+      .section-about .image-about {
+          width: 44%;
+      }
+  }
+  /* main: final */
+  /* mediaqueries del header */
+  @media screen and (min-width: 768px) {
+
+      .header {
+          display: flex;
+          align-items: center;
+          background-color: white;
+          margin: 0%;
+          width: 100%;
+          height: 8rem;
+          justify-content: space-between;
+          position: fixed;
+          top: 0;
+          z-index: 2;
+      }
+      .fuente {
+          font-family: ProximaNova;
+      }
+        .menu-principal {
+          justify-content: stretch;
+          display: flex;
+          list-style: none;
+          gap: 5rem;
+          padding-right: 5rem;
+        }
+
+      .logo-claaran{
+          width: 200px;
+
+      }
+
+
+
+      .link-menu{
+          font-family: ProximaNova;
+          font-size: 1.2rem;
+          text-decoration:  none;
+          color: #ffc4ff;
+
+
+      }
+
+
+
+      .a {
+          background-color: blueviolet;
+          color: white;
+          display: inline-block;
+          padding: 2vw;
+          width: 15vw;
+          height: 8vw;
+          font-size: x-large;
+      }
+
+
+
+      .general {
+          /* background: black; */
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+
+      .hr {
+          border: #ffc4ff;
+          height: 2px;
+          width: 100%;
+          margin: 10px 0;
+      }
+      .about {
+          height: 28rem;
+          padding: 2rem 7rem 2rem 8rem;
+      }
+
+
+      .about-image {
+          width: 20rem;
+          height: 20rem;
+      }
+
+      .about-image img {
+          width: 24rem;
+          position: absolute;
+          margin: 2rem -8rem;
+
+      }
+
+      .servicios{
+          align-items: center;
+          justify-content: center;
+          align-content: center;
+          text-align: center;
+          flex-direction: row;
+          gap: 1rem;
+      }
+
+      .servicios {
+          justify-content: center;
+          padding: 0rem 0rem 8rem 0rem;
+      }
+
+      .btn {
+          background-color: #42A5FF;
+      }
+
+      .container-footer {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          background: #EEE7F4;
+          padding: 2rem 0;
+          bottom: 0;
+          width: 100vw;
+      }
+
+
+      .container__info {
+          padding: 2rem 0;
+      }
+
+      .fa-brands {
+          display: block;
+          font-size: 34px;
+
+      }
+
+      .container__RedesSociales {
+          padding: 1rem 0;
+          gap: 15px;
+          display: flex;
+      }
+
+      form {
+          flex-direction: column;
+          display: flex;
+      }
+
+      .container__input {
+          margin-bottom: 1rem;
+      }
+
+      .container__input {
+          display: flex;
+          justify-content: right;
+          gap: 10px;
+          }
+  }
+
+  @media screen and (min-width: 1024px) {
+
+      .header {
+          display: flex;
+          align-items: center;
+          background-color: white;
+          margin: 0%;
+          width: 100%;
+          height: 8rem;
+          justify-content: space-between;
+          position: fixed;
+          top: 0;
+          z-index: 2;
+      }
+      .fuente {
+          font-family: ProximaNova;
+      }
+        .menu-principal {
+          justify-content: stretch;
+          display: flex;
+          list-style: none;
+          gap: 5rem;
+          padding-right: 5rem;
+        }
+
+      .logo-claaran{
+          width: 200px;
+
+      }
+
+
+
+      .link-menu{
+          font-family: ProximaNova;
+          font-size: 1.2rem;
+          text-decoration:  none;
+          color: #ffc4ff;
+
+
+      }
+
+      .a {
+          background-color: blueviolet;
+          color: white;
+          display: inline-block;
+          padding: 2vw;
+          width: 15vw;
+          height: 8vw;
+          font-size: x-large;
+      }
+
+
+
+
+      .general {
+          /* background: black; */
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+
+      .hr {
+          border: #ffc4ff;
+          height: 2px;
+          width: 100%;
+          margin: 10px 0;
+      }
+      .about {
+          padding: 2rem 7rem 2rem 8rem;
+      }
+
+
+      .about-image {
+          width: 20rem;
+          height: 20rem;
+      }
+
+      .about-image img {
+          width: 24rem;
+          position: absolute;
+          margin: 2rem -8rem;
+
+      }
+
+      .servicios{
+          align-items: center;
+          justify-content: center;
+          align-content: center;
+          text-align: center;
+          padding: 0rem 0rem 8rem 0rem;
+
+      }
+
+      .btn {
+          background-color: #ffc4ff;
+      }
+
+      .container-footer {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          background: #EEE7F4;
+          padding: 2rem 0;
+          bottom: 0;
+          width: 100vw;
+      }
+
+
+      .container__info {
+          padding: 2rem 0;
+      }
+
+      .fa-brands {
+          display: block;
+          font-size: 34px;
+
+      }
+
+      .container__RedesSociales {
+          padding: 1rem 0;
+          gap: 15px;
+          display: flex;
+      }
+
+      form {
+          flex-direction: column;
+          display: flex;
+      }
+
+      .container__input {
+          margin-bottom: 1rem;
+      }
+
+      .container__input {
+          display: flex;
+          justify-content: right;
+          gap: 10px;
+          }
+
+  }
+/* header */
+.header {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    margin: 0%;
+    width: 100%;
+    height: 8rem;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+}
+
+
+
+.container__telemail {
+    order: 3;
+    background: #EEE7F4;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container__formualario {
+    order: 1;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.about {
+    background: #EEE7F4;
+    height: 23rem;
+    margin: 50px;
+    align-content: center;
+    padding: 0 2rem;
+}
+
+.img-reunion {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.container__input {
+    display: flex;
+    justify-content: right;
+    align-items: baseline;
+    margin: .3rem 0;
+    gap: .5rem;
+}
+
+input.container__button {
+    width: 8rem;
+    height: 2rem;
+    background:#EEE7F4;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    margin: 0 auto;
+}
+
+
+@media screen and (min-width: 768px) {
+    .contenedor {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        background: #EEE7F4;
+        padding: 2rem 0;
+        bottom: 0;
+        position: relative;
+        /* width: 100vw; */
+    }
+
+
+    .container__info {
+        padding: 2rem 0;
+    }
+
+    .fa-brands {
+        display: block;
+        font-size: 34px;
+
+    }
+
+    .container__RedesSociales {
+        padding: 1rem 0;
+        gap: 15px;
+        display: flex;
+    }
+
+    form {
+        flex-direction: column;
+        display: flex;
+    }
+
+    .container__input {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: right;
+        gap: 10px;
+    }
+
+    input.container__button {
+        width: 8rem;
+        height: 2rem;
+        background: white;
+        color: black;
+        border: none;
+        border-radius: 9px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+
+    .contenedor {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        background: #EEE7F4;
+        padding: 2rem 0;
+        bottom: 0;
+        position: relative;
+        /* width: 100vw; */
+    }
+
+
+    .container__info {
+        padding: 2rem 0;
+    }
+
+    .fa-brands {
+        display: block;
+        font-size: 34px;
+
+    }
+
+    .container__RedesSociales {
+        padding: 1rem 0;
+        gap: 15px;
+        display: flex;
+    }
+
+    form {
+        flex-direction: column;
+        display: flex;
+    }
+
+    .container__input {
+        margin-bottom: 1rem;
+    }
+
+    .container__input {
+        display: flex;
+        justify-content: right;
+        gap: 10px;
+    }
+
+    input.container__button {
+        width: 8rem;
+        height: 2rem;
+        background: white;
+        border: none;
+        border-radius: 9px;
+        margin: 0 auto;
+    }
+
+}
