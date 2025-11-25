@@ -12,6 +12,8 @@ SUPABASE_KEY= os.getenv("SUPABASE_KEY")
 
 SUPABASE_BUCKET= os.getenv("SUPABASE_BUCKET")
 
+
+
 _supabase_client : Optional[Client] = None
 
 def get_supabase_client():
@@ -22,7 +24,7 @@ def get_supabase_client():
         _supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
     return _supabase_client
 
-async def upload_supabase_bucket(file:UploadFile):
+async def upload_to_bucket(file:UploadFile):
     client = get_supabase_client()
     try:
         file_content = await file.read()

@@ -2,7 +2,6 @@ from sqlmodel import SQLModel, Field,Relationship
 from typing import Optional,List
 import datetime
 import uuid
-from pydantic import EmailStr
 from enum import Enum
 
 class RoleEnum(str, Enum):
@@ -12,10 +11,10 @@ class RoleEnum(str, Enum):
 
 class UserBase(SQLModel):
     username: str | None = Field(description="User name")
-    email: EmailStr = Field(default=None, unique = True)
+    email: str = Field(default=None, unique = True)
     password: str
     status: bool = Field(default=True)
-    img : Optional[str] = Field(description="User image")
+    img : Optional[str] = Field(description="User image", default=None)
 
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)

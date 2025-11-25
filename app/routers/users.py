@@ -6,27 +6,27 @@ from fastapi import APIRouter, status, HTTPException,Request,Form,File,UploadFil
 from sqlmodel import select
 from db import SessionDep
 from models import User,UpdateUser,CreateUser
-from supa_impt.supa_bucket import upload_supabase_bucket
+from supa_impt.supa_bucket import upload_to_bucket
 #Templates response
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 router = APIRouter(prefix="/users", tags=["Users"])
 templates = Jinja2Templates(directory="templates")
 @router.post("/", response_model=User, status_code=status.HTTP_201_CREATED, )
-async def createUser(
+async def create_user(
         request:Request,
         session: SessionDep,
         username:str = Form(...),
         password:str = Form(...),
         email:str = Form(...),
         status:bool = Form(True),
-        img:Optional[UploadFile] = File(...)
+        img:Optional[UploadFile] = File(None)
         ):
     img_url = None
     if img:
         try:
-            img_url = await upload_supabase_bucket(img)
-            print("img is in the bucket")
+            img_url = await upload_to_bucket(img)
+
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
     try:
