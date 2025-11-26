@@ -63,11 +63,12 @@ async def reactivate_user(user_id: uuid.UUID, session: SessionDep):
     await session.commit()
     await session.refresh(user_db)
     return user_db
-@router.get("/",response_model=list[User])
+@router.get("/",response_class=HTMLResponse)
 async def show_users(request:Request,session:SessionDep):
     response = await session.execute(select(User))
     users = response.scalars().all()
-    return users
+    return templates.TemplateResponse("users/user_detail.html",
+                                      {"request": request, "users": users})
 @router.get("/active", response_model=list[User])
 async def get_users(session: SessionDep):
     result = await session.execute(select(User).where(User.is_active == True))

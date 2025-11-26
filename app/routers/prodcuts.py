@@ -4,7 +4,7 @@ from db import SessionDep
 from models import Product, User
 from typing import Optional
 from uuid import UUID
-from supa_impt.supa_bucket import upload_supabase_bucket
+from supa_impt.supa_bucket import upload_to_bucket
 #Templates response
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -25,7 +25,7 @@ async def create_product(
     img_url = None
     if img:
         try:
-            img_url = await upload_supabase_bucket(img)
+            img_url = await upload_to_bucket(img)
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
         try:
