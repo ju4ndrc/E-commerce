@@ -1,0 +1,38 @@
+<main class="crud-container">
+
+  <section class="product-table">
+
+    <!-- Botón Home encima del título -->
+    <a href="/" class="btn-home">Home</a>
+
+    <h2>Lista de usuarios</h2>
+
+    {% for user in users %}
+    <div class="card" style="width: 18rem;">
+        {% if user.img %}
+        <img src="{{user.img}}" class="card-img-top" alt="{{user.name}}">
+        {% endif %}
+
+        <div class="card-body">
+            <h5 class="card-title">{{user.usermane}}</h5>
+        </div>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">User name: {{user.username}}</li>
+            <li class="list-group-item">User Email: {{user.email}}</li>
+            <li class="list-group-item">User status: {{user.status}}</li>
+            <li class="list-group-item">User id: {{user.id}}</li>
+            <li class="list-group-item">Creation date user: {{user.date}}</li>
+            <li class="list-group-item">User role: {{user.role}}</li>
+        </ul>
+
+        <div class="card-body">
+            <a href="#" class="card-link-edit">Update</a>
+            <a href="#" class="card-link-delete">Delete</a>
+        </div>
+    </div>
+    {% endfor %}
+
+  </section>
+
+</main>
