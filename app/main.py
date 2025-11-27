@@ -42,6 +42,6 @@ app.include_router(orderd.router)
 
 @app.get("/",response_class=HTMLResponse,status_code=200)
 async def root(request: Request):
-    return templates.TemplateResponse("base.html",{"request":request})
+    return templates.TemplateResponse("home.html",{"request":request})
 
 

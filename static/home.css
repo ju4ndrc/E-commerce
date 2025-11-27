@@ -272,7 +272,7 @@
   }
 
   .content-about {
-      background: white;
+      background: #42A5FF;
       padding: 2.6rem 1.2rem 1.2rem 1.2rem;
       text-align: justify;
   }
@@ -375,7 +375,7 @@
           font-family: ProximaNova;
           font-size: 1.2rem;
           text-decoration:  none;
-          color: #ffc4ff;
+          color: #42A5FF;
 
 
       }
@@ -403,7 +403,7 @@
       }
 
       .hr {
-          border: #ffc4ff;
+          border: #42A5FF;
           height: 2px;
           width: 100%;
           margin: 10px 0;
@@ -448,7 +448,7 @@
           display: flex;
           flex-direction: row;
           justify-content: space-around;
-          background: #EEE7F4;
+          background: #42A5FF;
           padding: 2rem 0;
           bottom: 0;
           width: 100vw;
@@ -523,7 +523,7 @@
           font-family: ProximaNova;
           font-size: 1.2rem;
           text-decoration:  none;
-          color: #ffc4ff;
+          color: #42A5FF;
 
 
       }
@@ -550,7 +550,7 @@
       }
 
       .hr {
-          border: #ffc4ff;
+          border: #42A5FF;
           height: 2px;
           width: 100%;
           margin: 10px 0;
@@ -582,14 +582,14 @@
       }
 
       .btn {
-          background-color: #ffc4ff;
+          background-color: #42A5FF;
       }
 
       .container-footer {
           display: flex;
           flex-direction: row;
           justify-content: space-around;
-          background: #EEE7F4;
+          background: #42A5FF;
           padding: 2rem 0;
           bottom: 0;
           width: 100vw;
@@ -645,7 +645,7 @@
 
 .container__telemail {
     order: 3;
-    background: #EEE7F4;
+    background: #ffc4ff;
     display: flex;
     justify-content: center;
     padding: 1rem 0;
@@ -667,7 +667,7 @@ form {
 
 
 .about {
-    background: #EEE7F4;
+    background: #ffc4ff;
     height: 23rem;
     margin: 50px;
     align-content: center;
@@ -691,7 +691,7 @@ form {
 input.container__button {
     width: 8rem;
     height: 2rem;
-    background:#EEE7F4;
+    background:#ffc4ff;
     color: white;
     border: none;
     border-radius: 9px;
@@ -704,7 +704,7 @@ input.container__button {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        background: #EEE7F4;
+        background: #ffc4ff;
         padding: 2rem 0;
         bottom: 0;
         position: relative;
@@ -757,7 +757,7 @@ input.container__button {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        background: #EEE7F4;
+        background: #ffc4ff;
         padding: 2rem 0;
         bottom: 0;
         position: relative;

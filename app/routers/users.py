@@ -4,6 +4,8 @@ from typing import Optional
 
 from fastapi import APIRouter, status, HTTPException,Request,Form,File,UploadFile
 from sqlmodel import select
+from starlette.responses import RedirectResponse
+
 from db import SessionDep
 from models import User,UpdateUser,CreateUser
 from supa_impt.supa_bucket import upload_to_bucket
@@ -12,6 +14,10 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 router = APIRouter(prefix="/users", tags=["Users"])
 templates = Jinja2Templates(directory="templates")
+
+@router.get("/register",response_class=HTMLResponse)
+async def register_user(request: Request):
+    return templates.TemplateResponse("users/register.html", {"request": request})
 @router.post("/", response_model=User, status_code=status.HTTP_201_CREATED, )
 async def create_user(
         request:Request,
@@ -38,7 +44,7 @@ async def create_user(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return user
+    return RedirectResponse(url="/users",status_code=302)
 @router.delete("/{user_id}", status_code=status.HTTP_200_OK)
 async def soft_delete_user(user_id: uuid.UUID, session: SessionDep):
     user_db = await session.get(User, user_id)
