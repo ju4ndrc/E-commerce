@@ -3,7 +3,7 @@ from fastapi import FastAPI,Request
 
 from .routers import users, customers, orderd
 
-from app.routers import prodcuts
+from app.routers import products
 #Async
 from contextlib import asynccontextmanager
 from db import init_db
@@ -32,7 +32,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(users.router)
 
-app.include_router(prodcuts.router)
+app.include_router(products.router)
 
 app.include_router(customers.router)
 

@@ -73,7 +73,7 @@ async def reactivate_user(user_id: uuid.UUID, session: SessionDep):
 async def show_users(request:Request,session:SessionDep):
     response = await session.execute(select(User))
     users = response.scalars().all()
-    return templates.TemplateResponse("users/user_detail.html",
+    return templates.TemplateResponse("users/show_users.html",
                                       {"request": request, "users": users})
 @router.get("/active", response_model=list[User])
 async def get_users(session: SessionDep):

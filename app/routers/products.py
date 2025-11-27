@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Request, HTTPException, status, File, UploadFile, Form
 from sqlmodel import select
+from starlette.responses import RedirectResponse
+
 from db import SessionDep
-from models import Product, User
+from models import Product, CreateProduct
 from typing import Optional
 from uuid import UUID
 from supa_impt.supa_bucket import upload_to_bucket
@@ -9,7 +11,12 @@ from supa_impt.supa_bucket import upload_to_bucket
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 router = APIRouter(prefix="/products", tags=["Products"])
-templates = Jinja2Templates(directory="templates/crud_components")
+templates = Jinja2Templates(directory="templates")
+
+@router.get("/new",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+async def show_create(request: Request):
+    return templates.TemplateResponse("products_components/crud_products.html",{"request": request})
+
 @router.post("/", response_model=Product, status_code=status.HTTP_201_CREATED)
 async def create_product(
     request: Request,
@@ -29,20 +36,20 @@ async def create_product(
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
         try:
-            new_product = Product(name=name,description=description, price=price, stock=stock, img=img_url)
+            new_product = CreateProduct(name=name,description=description, price=price, stock=stock, img=img_url)
             product = Product.model_validate(new_product)
             session.add(product)
             await session.commit()
             await session.refresh(product)
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
-    return product
+    return RedirectResponse(url="/products/new", status_code=status.HTTP_302_FOUND)
 
 @router.get("/",response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 async def list_products(request:Request,session: SessionDep):
     result = await session.execute(select(Product))
     products = result.scalars().all()
-    return templates.TemplateResponse("crud_products.html",
+    return templates.TemplateResponse("products_components/show_products.html",
                                       {"request": request, "products": products})
 @router.patch("/{product_id}", response_model=Product)
 async def update_product(

@@ -27,15 +27,15 @@ class User(UserBase, table=True):
     cart: Optional["Cart"] = Relationship(back_populates="customer")
 
 class ProductBase(SQLModel):
-    name: str
-    description: Optional[str] = None
-    price: float
-    stock: int
+    name: str| None = Field(description="Product name")
+    description:str | None = Field(description="Product Description")
+    price: float | None = Field(description="Product Price")
+    stock: int | None = Field(description="Product Stock")
+    img : Optional[str] = Field(description="Product image")
 
 class Product(ProductBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
-    owner_id: uuid.UUID = Field(foreign_key="user.id")
-    img : Optional[str] = Field(description="Product image")
+   #owner_id: uuid.UUID = Field(foreign_key="user.id")
 
     owner: Optional["User"] = Relationship(back_populates="products")
 

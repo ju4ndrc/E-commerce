@@ -1,9 +1,9 @@
-{%include 'components/headerComponent.html' %}
+{%extends 'base.html'%}
 
-    <link href="{{ url_for('static', path='/register.css') }}" rel="stylesheet">
+   {%block css%} <link href="{{ url_for('static', path='/register.css') }}" rel="stylesheet">{%endblock%}
 
 
-
+{% block content %}
 
 
 
@@ -67,4 +67,4 @@
 
     </div>
 
-{% include 'components/footerComponent.html' %}
+{% endblock %}

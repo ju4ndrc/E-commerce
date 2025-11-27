@@ -1,0 +1,42 @@
+<div class="product-table-card">
+        <h2>Lista de Productos</h2>
+
+        <div class="table-container">
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>${{ product.price }}</td>
+                        <td>{{ product.stock }}</td>
+                        <td>
+                            {% if p.img %}
+                                <img src="/static/uploads/{{ p.img }}" class="product-img"/>
+                            {% else %}
+                                Sin imagen
+                            {% endif %}
+                        </td>
+                        <td class="table-actions">
+                            <button class="btn-edit">Editar</button>
+                            <button class="btn-delete">Eliminar</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
