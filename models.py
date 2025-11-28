@@ -17,12 +17,12 @@ class UserBase(SQLModel):
     img : Optional[str] = Field(description="User image", default=None)
 
 class User(UserBase, table=True):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
+    id: uuid.UUID = Field(default_factory = uuid.uuid4, primary_key=True, index=True)
     date: datetime.datetime | None = Field(default_factory=datetime.datetime.now)
     role: RoleEnum = Field(default=RoleEnum.CUSTOMER)
 
 
-    products: List["Product"] = Relationship(back_populates="owner")
+
     orders: List["Order"] = Relationship(back_populates="customer")
     cart: Optional["Cart"] = Relationship(back_populates="customer")
 
@@ -35,9 +35,9 @@ class ProductBase(SQLModel):
 
 class Product(ProductBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
-   #owner_id: uuid.UUID = Field(foreign_key="user.id")
+#    owner_id: uuid.UUID = Field(foreign_key="user.id")
 
-    owner: Optional["User"] = Relationship(back_populates="products")
+#    owner: Optional["User"] = Relationship(back_populates="products")
 
 # PEDIDOS
 
