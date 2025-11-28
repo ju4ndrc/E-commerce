@@ -2,29 +2,20 @@
 <section class="section-servicios">
     <h2>Nuestros Productos</h2>
     <div class="servicios" id="servicios">
+    {% for product in products %}
         <div class="card">
             <div class="card-body">
-                <img src="./images/Servicio01.png" class="card-img-top" alt="...">
+                <img src="{{product.img}}" class="card-img-top" alt="{{product.name}}">
                 <hr size="2px" color="back" />
-                <h5 class="card-title">Sistema informático</h5>
-                <a href="login.html" class="btn btn-access-now" target="_self">Acceder</a>
+                <h5 class="card-title">{{product.name}}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{product.description}}</li>
+                    <li class="list-group-item">Precio ${{product.price}}</li>
+                </ul>
+                <a href="login.html" class="btn btn-access-now" target="_self">Añadir al carrito</a>
             </div>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <img src="./images/Servicio-02.png" class="card-img-top" alt="...">
-                <hr size="2px" color="back" />
-                <h5 class="card-title">Clasificación arancelaria</h5>
-                <a href="login.html" class="btn btn-access-now" target="_self">Acceder</a>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <img src="./images/servicio03.png" class="card-img-top" alt="...">
-                <hr size="2px" color="back" />
-                <h5 class="card-title">Consultoria</h5>
-                <a href="login.html" class="btn btn-access-now" target="_self">Acceder</a>
-            </div>
-        </div>
+
+    {% endfor %}
     </div>
 </section>

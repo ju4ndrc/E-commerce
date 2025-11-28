@@ -23,15 +23,16 @@
                         <td>${{ product.price }}</td>
                         <td>{{ product.stock }}</td>
                         <td>
-                            {% if p.img %}
-                                <img src="/static/uploads/{{ p.img }}" class="product-img"/>
+                            {% if product.img %}
+                                <img src="{{ product.img }}" class="product-img"/>
                             {% else %}
                                 Sin imagen
                             {% endif %}
                         </td>
                         <td class="table-actions">
                             <button class="btn-edit">Editar</button>
-                            <button class="btn-delete">Eliminar</button>
+                            <form action="/products/{{product.id}}" method="post" enctype="multipart/form-data"><button class="btn-delete" >Eliminar</button></form>
+
                         </td>
                     </tr>
                     {% endfor %}
