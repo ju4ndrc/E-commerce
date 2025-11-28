@@ -44,4 +44,3 @@ app.include_router(orderd.router)
 async def root(request: Request):
     return templates.TemplateResponse("home.html",{"request":request})
 
-

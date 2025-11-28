@@ -204,11 +204,7 @@
     }
   }
   /* Aqui finaliza estilos del header */
-  * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-  }
+
 
   .header {
       display: flex;
@@ -232,7 +228,6 @@
 
 
   /* main */
-
   /* main: section.back-img */
   .carousel-inner img{
     height: 74vh;
@@ -273,7 +268,7 @@
   }
 
   .content-about {
-      background: #42A5FF;
+
       padding: 2.6rem 1.2rem 1.2rem 1.2rem;
       text-align: justify;
   }
@@ -442,7 +437,7 @@
       }
 
       .btn {
-          background-color: #42A5FF;
+          background:#ffc4ff;;
       }
 
       .container-footer {
@@ -583,7 +578,7 @@
       }
 
       .btn {
-          background-color: #42A5FF;
+          background:#ffc4ff;
       }
 
       .container-footer {
