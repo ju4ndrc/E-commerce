@@ -1,7 +1,5 @@
 from fastapi import APIRouter, Request, HTTPException, status, File, UploadFile, Form
 from sqlmodel import select
-from starlette.responses import RedirectResponse
-
 from db import SessionDep
 from models import Product, CreateProduct
 from typing import Optional
@@ -9,15 +7,26 @@ from uuid import UUID
 from supa_impt.supa_bucket import upload_to_bucket
 #Templates response
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
-router = APIRouter(prefix="/products", tags=["Products"])
+from fastapi.responses import HTMLResponse,RedirectResponse
+router = APIRouter( tags=["Products"])
 templates = Jinja2Templates(directory="templates")
 
-@router.get("/new",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
-async def show_create(request: Request):
-    return templates.TemplateResponse("products_components/crud_products.html",{"request": request})
-
-@router.post("/", response_model=Product, status_code=status.HTTP_201_CREATED)
+@router.get("/",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+async def list_products(request: Request,session: SessionDep):
+    result = await session.execute(select(Product))
+    products = result.scalars().all()
+    return templates.TemplateResponse("home.html",{"request": request, "products": products})
+@router.get("/products/new",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+async def show_create(request: Request,session: SessionDep):
+    result = await session.execute(select(Product))
+    products = result.scalars().all()
+    return templates.TemplateResponse("products_components/crud_products.html",{"request": request , "products": products})
+@router.get("/products",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+async def show_cards(request: Request,session: SessionDep):
+    result = await session.execute(select(Product))
+    products = result.scalars().all()
+    return templates.TemplateResponse("home.html",{"request": request, "products": products})
+@router.post("/products", response_model=Product, status_code=status.HTTP_201_CREATED)
 async def create_product(
     request: Request,
     session: SessionDep,
@@ -45,13 +54,13 @@ async def create_product(
             raise HTTPException(status_code=400, detail=str(e))
     return RedirectResponse(url="/products/new", status_code=status.HTTP_302_FOUND)
 
-@router.get("/",response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+@router.get("/products",response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 async def list_products(request:Request,session: SessionDep):
     result = await session.execute(select(Product))
     products = result.scalars().all()
-    return templates.TemplateResponse("products_components/show_products.html",
-                                      {"request": request, "products": products})
-@router.patch("/{product_id}", response_model=Product)
+    return templates.TemplateResponse("products_components/crud_products.html",{"request": request, "products": products})
+
+@router.patch("/products/{product_id}", response_model=Product)
 async def update_product(
     product_id: UUID,
     session: SessionDep,
@@ -82,11 +91,11 @@ async def update_product(
     await session.commit()
     await session.refresh(db_product)
     return db_product
-@router.delete("/{product_id}")
+@router.post("/products/{product_id}")
 async def delete_product(product_id: UUID, session: SessionDep):
     product = await session.get(Product, product_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     await session.delete(product)
     await session.commit()
-    return {"message": "Product deleted successfully"}
+    return RedirectResponse(url="/products/new", status_code=status.HTTP_302_FOUND)

@@ -10,7 +10,7 @@
     <div class="product-form-card">
         <h2>Crear Producto</h2>
 
-        <form action="/products/new" method="post" enctype="multipart/form-data">
+        <form action="/products" method="post" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label for="name">Nombre del producto</label>
@@ -34,7 +34,7 @@
 
             <div class="form-group">
                 <label for="img">Imagen del producto</label>
-                <input type="file" id="img" name="img" accept="image/*" required>
+                <input type="file" id="img" name="img" accept="image/*" >
             </div>
 
             <button type="submit" class="btn-submit">Guardar Producto</button>
@@ -42,8 +42,9 @@
         </form>
     </div>
 
-</div>
 {%include 'products_components/show_products.html' %}
-
+</div>
 
 {% endblock %}
+
+
