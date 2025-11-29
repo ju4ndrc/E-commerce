@@ -21,6 +21,13 @@ async def show_create(request: Request,session: SessionDep):
     result = await session.execute(select(Product))
     products = result.scalars().all()
     return templates.TemplateResponse("products_components/crud_products.html",{"request": request , "products": products})
+@router.get("/products/update/{product_id}",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+async def show_create(request: Request,session: SessionDep):
+    result = await session.execute(select(Product))
+    products = result.scalars().all()
+    return templates.TemplateResponse("products_components/update.html",{"request": request , "products": products})
+
+
 @router.get("/products",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
 async def show_cards(request: Request,session: SessionDep):
     result = await session.execute(select(Product))
@@ -60,15 +67,17 @@ async def list_products(request:Request,session: SessionDep):
     products = result.scalars().all()
     return templates.TemplateResponse("products_components/crud_products.html",{"request": request, "products": products})
 
-@router.patch("/products/{product_id}", response_model=Product)
+@router.post("/products/update/{product_id}", response_model=Product)
 async def update_product(
-    product_id: UUID,
+    request: Request,
     session: SessionDep,
-    name: str = Form(None),
-    description: str = Form(None),
-    price: float = Form(None),
-    stock: int = Form(None),
-    img: Optional[UploadFile] = File(...),
+    product_id: UUID,
+
+    name: Optional[str] = Form(None),
+    description: Optional[str] = Form(None),
+    price: Optional[float] = Form(None),
+    stock: Optional[int] = Form(None),
+    img: Optional[UploadFile] = File(None),
 
 ):
     # Buscar producto
@@ -77,20 +86,26 @@ async def update_product(
         raise HTTPException(status_code=404, detail="Product not found")
 
 
+
     # Actualizar los campos enviados
-    if name is not None:
+    if name is not None and name != " ":
         db_product.name = name
-    if description is not None:
+    if description is not None and description != " ":
         db_product.description = description
-    if price is not None:
+    if price is not None :
+
         db_product.price = price
-    if stock is not None:
+    if stock is not None :
         db_product.stock = stock
+    if img is not None and img != " ":
+        img_url = await upload_to_bucket(img)
+        db_product.img = img_url
+
 
     session.add(db_product)
     await session.commit()
     await session.refresh(db_product)
-    return db_product
+    return RedirectResponse(url="/products/new", status_code=status.HTTP_302_FOUND)
 @router.post("/products/{product_id}")
 async def delete_product(product_id: UUID, session: SessionDep):
     product = await session.get(Product, product_id)

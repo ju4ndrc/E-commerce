@@ -30,8 +30,8 @@
                             {% endif %}
                         </td>
                         <td class="table-actions">
-                            <button class="btn-edit">Editar</button>
-                            <form action="/products/{{product.id}}" method="post" enctype="multipart/form-data"><button class="btn-delete" >Eliminar</button></form>
+                            <a href="/products/update/{{product.id}}"><button  class="btn-edit">Editar</button></a>
+                            <form action="/products/{{product.id}}" onsubmit="return confirm('Quiere eliminar este producto?')" method="post" enctype="multipart/form-data"><button class="btn-delete" >Eliminar</button></form>
 
                         </td>
                     </tr>
