@@ -1,0 +1,70 @@
+{%extends 'base.html'%}
+
+   {%block css%} <link href="{{ url_for('static', path='/register.css') }}" rel="stylesheet">{%endblock%}
+
+
+{% block content %}
+
+
+
+<a href="/" class="btn-home">Home</a>
+ <div class="login-container">
+
+        <form action="/users/update/{{user.id}}" method="post" enctype="multipart/form-data"  >
+
+            <h2>Actualizar usuario</h2>
+
+            <div class="form-group">
+                <label for="username">Nombre de usuario</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="{{user.username}}"
+                    minlength="3"
+                    maxlength="20"
+
+                    title="Solo letras, números y guion bajo. Mínimo 3 caracteres."
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="{{user.email}}"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="{{user.password}}"
+                    minlength="6"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="img">Imagen de perfil</label>
+                <input
+                    type="file"
+                    id="img"
+                    name="img"
+                    accept="image/*"
+                    required>
+            </div>
+
+            <button type="submit" class="btn-submit">Actualizar usuario</button>
+
+
+
+        </form>
+
+    </div>
+
+{% endblock %}

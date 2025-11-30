@@ -22,10 +22,9 @@ async def show_create(request: Request,session: SessionDep):
     products = result.scalars().all()
     return templates.TemplateResponse("products_components/crud_products.html",{"request": request , "products": products})
 @router.get("/products/update/{product_id}",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
-async def show_create(request: Request,session: SessionDep):
-    result = await session.execute(select(Product))
-    products = result.scalars().all()
-    return templates.TemplateResponse("products_components/update.html",{"request": request , "products": products})
+async def show_update(request: Request,session: SessionDep, product_id: UUID):
+    product = await session.get(Product, product_id)
+    return templates.TemplateResponse("products_components/update.html",{"request": request , "product": product})
 
 
 @router.get("/products",response_class=HTMLResponse,status_code=status.HTTP_200_OK)

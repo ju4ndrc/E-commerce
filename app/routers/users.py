@@ -86,17 +86,46 @@ async def get_user(request:Request,user_id: uuid.UUID, session: SessionDep):
     if not user_db:
         raise HTTPException(status_code=404, detail="User not found")
     return user_db
-@router.patch("/updateUser/{user_id}",response_model=User,status_code= status.HTTP_201_CREATED)
-async def update_user( user_id: uuid.UUID, user_data:UpdateUser, session:SessionDep ):
+
+@router.get("/update/{user_id}", response_class=HTMLResponse ,status_code=status.HTTP_200_OK)
+async def show_user(request:Request, session: SessionDep, user_id: uuid.UUID,):
+    user = await session.get(User, user_id)
+    await session.refresh(user)
+    return templates.TemplateResponse("users/update_user.html",{"request": request, "user": user})
+@router.post("/update/{user_id}",response_model=User,status_code= status.HTTP_201_CREATED)
+async def update_user(
+        request:Request,
+        session:SessionDep ,
+        user_id: uuid.UUID,
+
+        username:Optional[str] = Form(None),
+        password:Optional[str] = Form(None),
+        email:Optional[str] = Form(None),
+        status:Optional[bool] = Form(True),
+        img:Optional[UploadFile] = File(None)):
+
+
     user_db = await session.get(User, user_id)
+
 
     if not user_db:
 
         raise HTTPException(status_code=404, detail="We can not find, this user")
 
-    user_data_dict = user_data.model_dump(exclude_unset=True)
-    user_db.sqlmodel_update(user_data_dict)
+    if username is not None:
+        user_db.username = username
+    if password is not None:
+        user_db.password = password
+    if email is not None:
+        user_db.email = email
+    if status is not None:
+        user_db.status = status
+
+    if img is not None:
+        img_url = await upload_to_bucket(img)
+        user_db.img = upload_to_bucket(img_url)
+
     session.add(user_db)
     await session.commit()
     await session.refresh(user_db)
-    return user_db
+    return RedirectResponse(url="/users/",status_code=302)

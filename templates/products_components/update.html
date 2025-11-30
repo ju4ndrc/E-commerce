@@ -6,7 +6,7 @@
 
     <div class="product-form-card">
         <h2>Actualizar Producto</h2>
-        {% for product in products %}
+
         <form action="/products/update/{{product.id}}" method="post" enctype="multipart/form-data">
 
             <div class="form-group">
@@ -37,7 +37,7 @@
             <button type="submit" class="btn-submit">Guardar Producto</button>
 
         </form>
-        {% endfor %}
+
     </div>
 
 
