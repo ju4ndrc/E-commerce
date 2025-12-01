@@ -8,6 +8,10 @@ class RoleEnum(str, Enum):
     ADMIN = "admin"
     CUSTOMER = "customer"
 
+class Token(SQLModel):
+    access_token: str
+    token_type: str
+
 
 class UserBase(SQLModel):
     username: str | None = Field(description="User name")

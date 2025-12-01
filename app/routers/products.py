@@ -92,7 +92,6 @@ async def update_product(
     if description :
         db_product.description = description
     if price :
-
         db_product.price = price
     if stock :
         db_product.stock = stock

@@ -12,6 +12,8 @@ from supa_impt.supa_bucket import upload_to_bucket
 #Templates response
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+#hash
+from app.auth.hash import get_password_hash
 router = APIRouter(prefix="/users", tags=["Users"])
 templates = Jinja2Templates(directory="templates")
 
@@ -28,6 +30,7 @@ async def create_user(
         status:bool = Form(True),
         img:Optional[UploadFile] = File(None)
         ):
+
     img_url = None
     if img:
         try:
