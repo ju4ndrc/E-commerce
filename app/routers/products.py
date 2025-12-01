@@ -87,16 +87,16 @@ async def update_product(
 
 
     # Actualizar los campos enviados
-    if name is not None and name != " ":
+    if name :
         db_product.name = name
-    if description is not None and description != " ":
+    if description :
         db_product.description = description
-    if price is not None :
+    if price :
 
         db_product.price = price
-    if stock is not None :
+    if stock :
         db_product.stock = stock
-    if img is not None and img != " ":
+    if img and img.filename:
         img_url = await upload_to_bucket(img)
         db_product.img = img_url
 

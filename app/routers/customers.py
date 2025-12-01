@@ -26,7 +26,7 @@ async def get_cart(session: SessionDep, user: User):
 
     product_data = []
     for item in products:
-        product = session.get(Product, item.product_id)
+        product = await session.get(Product, item.product_id)
         if product:
             product_data.append({
                 "product_id": str(product.id),
@@ -84,7 +84,7 @@ async def remove_from_cart(product_id: UUID, session: SessionDep):
     if not item:
         raise HTTPException(status_code=404, detail="Product not in cart")
 
-    session.delete(item)
+    await session.delete(item)
     await session.commit()
     return {"message": "Product removed from cart."}
 

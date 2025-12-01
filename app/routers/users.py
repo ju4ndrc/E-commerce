@@ -112,18 +112,18 @@ async def update_user(
 
         raise HTTPException(status_code=404, detail="We can not find, this user")
 
-    if username is not None:
+    if username:
         user_db.username = username
-    if password is not None:
+    if password:
         user_db.password = password
-    if email is not None:
+    if email:
         user_db.email = email
     if status is not None:
         user_db.status = status
 
-    if img is not None:
+    if img and img.filename:
         img_url = await upload_to_bucket(img)
-        user_db.img = upload_to_bucket(img_url)
+        user_db.img = img_url
 
     session.add(user_db)
     await session.commit()
