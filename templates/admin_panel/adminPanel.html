@@ -1,0 +1,86 @@
+
+{%block css%} <link href="{{ url_for('static', path='/adminPanel.css') }}" rel="stylesheet"> {%endblock%}
+{%block content%}
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Panel Admin</h2>
+        <div class="menu">
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Usuarios</a>
+            <a href="#">Productos</a>
+            <a href="#">Ventas</a>
+            <a href="#">Ajustes</a>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <div class="topbar">
+            <h1>Dashboard</h1>
+            <div>👤 Admin</div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="card-grid">
+            <div class="card">
+                <h3>Usuarios</h3>
+                <p>1520</p>
+            </div>
+            <div class="card">
+                <h3>Ventas</h3>
+                <p>$38,200</p>
+            </div>
+            <div class="card">
+                <h3>Pedidos</h3>
+                <p>297</p>
+            </div>
+            <div class="card">
+                <h3>Soporte</h3>
+                <p>14 tickets</p>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-section">
+            <h2>Últimos pedidos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1021</td>
+                        <td>María López</td>
+                        <td>Mouse Gamer</td>
+                        <td>$45.00</td>
+                        <td>Enviado</td>
+                    </tr>
+                    <tr>
+                        <td>#1020</td>
+                        <td>Carlos Pérez</td>
+                        <td>Teclado Mecánico</td>
+                        <td>$89.00</td>
+                        <td>Pendiente</td>
+                    </tr>
+                    <tr>
+                        <td>#1019</td>
+                        <td>Ana Torres</td>
+                        <td>Pantalla 24"</td>
+                        <td>$199.00</td>
+                        <td>Completado</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+
+{%endblock%}

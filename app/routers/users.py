@@ -7,15 +7,16 @@ from sqlmodel import select
 from starlette.responses import RedirectResponse
 
 from db import SessionDep
-from models import User,UpdateUser,CreateUser
+from models import User,CreateUser
 from supa_impt.supa_bucket import upload_to_bucket
 #Templates response
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 #hash
-from app.auth.hash import get_password_hash
+from app.auth.hashing import get_password_hash
 router = APIRouter(prefix="/users", tags=["Users"])
 templates = Jinja2Templates(directory="templates")
+
 
 @router.get("/register",response_class=HTMLResponse)
 async def register_user(request: Request):
@@ -31,6 +32,7 @@ async def create_user(
         img:Optional[UploadFile] = File(None)
         ):
 
+
     img_url = None
     if img:
         try:
@@ -39,7 +41,8 @@ async def create_user(
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
     try:
-        new_user = CreateUser(username=username, password=password, email=email,status=status, img=img_url)
+        hashed_password = get_password_hash(password)
+        new_user = CreateUser(username=username, password=hashed_password, email=email,status=status, img=img_url)
         user = User.model_validate(new_user)
         session.add(user)
         await session.commit()
