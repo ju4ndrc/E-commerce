@@ -1,13 +1,18 @@
-from fastapi import Depends,HTTPException,status
+from fastapi import Depends,HTTPException,status,Request
 from db import SessionDep
 from app.auth.authenticate import oauth2_scheme, get_user
 from app.auth.validation import decode_token
 from models import User, RoleEnum
 
 
-async def get_current_user(session:SessionDep,token:str = Depends(oauth2_scheme)) -> User:
+async def get_current_user(request:Request,session:SessionDep) -> User:
+    token = request.cookies.get("Authorization")
+    if not token:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
     payload = decode_token(token)
     username = payload.get('username')
+
     if username is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
