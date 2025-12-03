@@ -6,7 +6,7 @@ from sqlmodel import select
 
 from models import User, RoleEnum
 from .auth.hashing import get_password_hash
-from .routers import users, customers, orderd, admin
+from .routers import users, customers, orderd, access_router
 
 from app.routers import products
 #Async
@@ -72,7 +72,7 @@ app.include_router(customers.router)
 
 app.include_router(orderd.router)
 
-app.include_router(admin.router)
+app.include_router(access_router.router)
 
 @app.get("/",response_class=HTMLResponse,status_code=200)
 async def root(request: Request):

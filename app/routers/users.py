@@ -3,9 +3,12 @@ import uuid
 from typing import Optional
 
 from fastapi import APIRouter, status, HTTPException,Request,Form,File,UploadFile
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select
 from starlette.responses import RedirectResponse
 
+from app.auth.authenticate import authenticate_user
+from app.auth.validation import create_access_token
 from db import SessionDep
 from models import User,CreateUser
 from supa_impt.supa_bucket import upload_to_bucket
@@ -16,6 +19,11 @@ from fastapi.templating import Jinja2Templates
 from app.auth.hashing import get_password_hash
 router = APIRouter(prefix="/users", tags=["Users"])
 templates = Jinja2Templates(directory="templates")
+@router.get("/login",response_class=HTMLResponse)
+async def show_login_user(request:Request):
+    return (templates.TemplateResponse("users/login.html",{"request": request}))
+
+
 
 
 @router.get("/register",response_class=HTMLResponse)
@@ -135,3 +143,31 @@ async def update_user(
     await session.commit()
     await session.refresh(user_db)
     return RedirectResponse(url="/users/",status_code=302)
+
+
+@router.post("/login")
+async def login_user(request: Request,session:SessionDep, email: str = Form(...), password:str = Form(...) ):
+    user = await authenticate_user(session,email, password)
+    if not user:
+        raise HTTPException(status_code=400, detail="Incorrect email or password")
+
+    token = create_access_token({"email": user.email , "role": user.role.value})
+
+    if user.role.value == "admin":
+        url_direct = "/"
+    else:
+        url_direct = "/"
+    response = RedirectResponse(url=url_direct,status_code=302)
+
+    response.set_cookie(key="Authorization",
+                        value=token,
+                        httponly=True,
+                        samesite="lax",
+                        secure=False)
+    return response
+
+@router.get("/logout")
+async def logout_user():
+    response = RedirectResponse(url="/",status_code=302)
+    response.delete_cookie(key="Authorization")
+    return response

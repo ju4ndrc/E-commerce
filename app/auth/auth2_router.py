@@ -18,10 +18,10 @@ async def login_for_access_token(session:SessionDep,form_data: OAuth2PasswordReq
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
         )
-    access_token = create_access_token(data={"username": user.username, "role":user.role.value})
+    access_token = create_access_token(data={"email": user.email, "role":user.role.value})
 
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/admin/")
 async def admin_route(current_user:User = Depends(check_admin)):
-    return {"msg":f"{current_user.username}, Welcomer to admin panel"}
+    return {"msg":f"{current_user.email}, Welcomer to admin panel"}
