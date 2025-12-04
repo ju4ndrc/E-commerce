@@ -37,7 +37,7 @@ DB_PASSWORD = os.getenv("POSTGRESQL_ADDON_PASSWORD")
 DB_HOST = os.getenv("POSTGRESQL_ADDON_HOST")
 DB_PORT = os.getenv("POSTGRESQL_ADDON_PORT")
 
-CLEVER_URL = (f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+CLEVER_URL = (f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=require")
 
 
 engine_clever: AsyncEngine = create_async_engine(
