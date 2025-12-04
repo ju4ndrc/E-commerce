@@ -58,3 +58,5 @@ La API expone los siguientes endpoints demostrando las relaciones y operaciones 
 
 ### 4.1 Diagrama de Clases
 [Ver diagrama de clases](https://lucid.app/lucidchart/b0d28342-71f0-47c6-9509-c1c7bacc733f/edit?viewport_loc=-2268%2C-20%2C3438%2C1642%2C0_0&invitationId=inv_b1e82a85-7a6b-4df6-a051-0582c8853b06)
+### 4.2 Documentacion
+https://drive.google.com/file/d/1nKqNKAjCRxQhQdILiXm0buQLc57wxJUU/view?usp=sharing
