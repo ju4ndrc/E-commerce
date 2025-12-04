@@ -173,6 +173,6 @@ async def login_user(request: Request,session:SessionDep, email: str = Form(...)
                         value=token,
                         httponly=True,
                         samesite="lax",
-                        secure=False)
+                        secure=True)
     return response
 
