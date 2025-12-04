@@ -43,7 +43,14 @@ CLEVER_URL = (f"postgresql+asyncpg://{DB_USER}.efkhgpbtnzebatbsmfqv:{DB_PASSWORD
 engine_clever: AsyncEngine = create_async_engine(
     CLEVER_URL,
     echo=True,
-    connect_args={"statement_cache_size": 0}
+    engine = create_async_engine(
+    DATABASE_URL,
+    echo=False,
+    connect_args={
+        "statement_cache_size": 0,
+        "prepared_statement_cache_size": 0
+    }
+)
 )
 async_session = sessionmaker(engine_clever, expire_on_commit=False, class_=AsyncSession)
 
