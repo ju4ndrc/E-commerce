@@ -65,7 +65,7 @@ async def create_user(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return RedirectResponse(url="/users",status_code=302)
+    return RedirectResponse(url="/",status_code=302)
 @router.delete("/{user_id}", status_code=status.HTTP_200_OK)
 async def soft_delete_user(user_id: uuid.UUID, session: SessionDep):
     user_db = await session.get(User, user_id)
