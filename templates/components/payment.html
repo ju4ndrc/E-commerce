@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link href="{{ url_for('static', path='/payment.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+    {% include 'components/headerComponent.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="payment-wrapper">
+
+    <h2 class="payment-title">Proceso de Pago</h2>
+
+    <div class="payment-container">
+
+        <!-- Datos del comprador -->
+        <section class="payment-form">
+            <h3>Datos del comprador</h3>
+
+            <form action="/orders/checkout" method="POST" enctype="application/x-www-form-urlencoded">
+
+                <label for="name">Nombre completo</label>
+                <input type="text" name="full_name" id="name" placeholder="Juan Pérez" required>
+
+                <label for="email">Correo electrónico</label>
+                <input type="email" name="email" id="email" placeholder="correo@ejemplo.com" required>
+
+                <label for="address">Dirección</label>
+                <input type="text" name="address" id="address" placeholder="Calle 123, Ciudad" required>
+
+                <label for="phone">Teléfono</label>
+                <input type="text" name="phone" id="phone" placeholder="+57 310 000 0000" required>
+
+                <button type="submit" class="btn-pay">Continuar con pago</button>
+            </form>
+
+            <div id="bold-checkout" class="bold-container"></div>
+
+        </section>
+
+        <aside class="payment-summary">
+            <div class="summary-card">
+
+                <h3>Resumen del pedido</h3>
+
+                <div class="summary-row">
+                    <span>Productos</span>
+                    <strong>${{ total }}</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Envío</span>
+                    <strong>$0</strong>
+                </div>
+
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <strong>${{ total }}</strong>
+                </div>
+
+            </div>
+        </aside>
+
+    </div>
+
+</div>
+
+{% endblock %}

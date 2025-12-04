@@ -2,15 +2,16 @@ import uuid
 
 from typing import Optional
 
-from fastapi import APIRouter, status, HTTPException,Request,Form,File,UploadFile
+from fastapi import APIRouter, status, HTTPException, Request, Form, File, UploadFile, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select
 from starlette.responses import RedirectResponse
 
 from app.auth.authenticate import authenticate_user
+from app.auth.current_user import get_current_user
 from app.auth.validation import create_access_token
 from db import SessionDep
-from models import User,CreateUser
+from models import User, CreateUser, RoleEnum
 from supa_impt.supa_bucket import upload_to_bucket
 #Templates response
 from fastapi.responses import HTMLResponse
@@ -21,9 +22,15 @@ router = APIRouter(prefix="/users", tags=["Users"])
 templates = Jinja2Templates(directory="templates")
 @router.get("/login",response_class=HTMLResponse)
 async def show_login_user(request:Request):
-    return (templates.TemplateResponse("users/login.html",{"request": request}))
+
+    return templates.TemplateResponse("users/login.html",{"request": request})
 
 
+@router.get("/logout")
+async def logout_user():
+    response = RedirectResponse(url="/",status_code=302)
+    response.delete_cookie(key="Authorization")
+    return response
 
 
 @router.get("/register",response_class=HTMLResponse)
@@ -114,6 +121,7 @@ async def update_user(
 
         username:Optional[str] = Form(None),
         password:Optional[str] = Form(None),
+        role:RoleEnum= Form(None),
         email:Optional[str] = Form(None),
         status:Optional[bool] = Form(True),
         img:Optional[UploadFile] = File(None)):
@@ -130,6 +138,8 @@ async def update_user(
         user_db.username = username
     if password:
         user_db.password = password
+    if role:
+        user_db.role = role
     if email:
         user_db.email = email
     if status is not None:
@@ -154,7 +164,7 @@ async def login_user(request: Request,session:SessionDep, email: str = Form(...)
     token = create_access_token({"email": user.email , "role": user.role.value})
 
     if user.role.value == "admin":
-        url_direct = "/"
+        url_direct = "/admin/panel"
     else:
         url_direct = "/"
     response = RedirectResponse(url=url_direct,status_code=302)
@@ -166,8 +176,3 @@ async def login_user(request: Request,session:SessionDep, email: str = Form(...)
                         secure=False)
     return response
 
-@router.get("/logout")
-async def logout_user():
-    response = RedirectResponse(url="/",status_code=302)
-    response.delete_cookie(key="Authorization")
-    return response

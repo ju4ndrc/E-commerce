@@ -1,4 +1,5 @@
 
+
 <section class="section-servicios">
     <h2>Nuestros Productos</h2>
     <div class="servicios" id="servicios">
@@ -12,7 +13,14 @@
                     <li class="list-group-item">{{product.description}}</li>
                     <li class="list-group-item">Precio ${{product.price}}</li>
                 </ul>
-                <a href="login.html" class="btn btn-access-now" target="_self">Añadir al carrito</a>
+
+                <form action="/cart/add/{{ product.id }}" method="post">
+
+                    <input type="number" name="quantity" value="1">
+                    <button type="submit">Agregar</button>
+
+                </form>
+
             </div>
         </div>
 

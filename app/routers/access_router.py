@@ -20,8 +20,7 @@ templates = Jinja2Templates(directory="templates")
 @router.get("/admin/panel", response_class=HTMLResponse)
 async def admin_panel(
         request: Request,
-        user = Depends(require_role(RoleEnum.ADMIN))
-                      ):
+        user = Depends(require_role(RoleEnum.ADMIN))):
     return templates.TemplateResponse("admin_panel/adminPanel.html",
                                       {"request": request, "user": user}
                                       )

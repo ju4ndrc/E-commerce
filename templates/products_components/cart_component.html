@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block css %}
+ <link href="{{ url_for('static', path='/cart.css') }}" rel="stylesheet">
+{% endblock %}
+{% block navbar %} {%include 'components/headerComponent.html'%} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1 class="page-title">Tu carrito</h1>
+
+  <section class="cart-grid">
+
+    <!-- Ítems -->
+    <div class="cart-items">
+
+      {% if items %}
+        {% for item in items %}
+        <article class="cart-item" data-product-id="{{ item.product_id }}">
+
+          <!-- Imagen -->
+          <img
+            src="{{ item.img  }}"
+            alt="{{ item.name }}"
+            class="item-img"
+          >
+
+          <div class="item-body">
+            <h3 class="item-title">{{ item.name }}</h3>
+
+            <div class="item-meta">
+
+              <!-- Precio unitario -->
+              <span class="item-price">
+                $<span class="unit-price">{{ '%.2f'|format(item.price) }}</span>
+              </span>
+
+              <!-- Cantidad (no funcional aún sin JS) -->
+              <div class="qty-control">
+                <button class="qty-btn minus">−</button>
+                <input class="qty-input" type="number" min="1" value="{{ item.quantity }}" />
+                <button class="qty-btn plus">+</button>
+              </div>
+
+
+              <form  method="post" enctype="multipart/form-data" action="/cart/remove/{{ item.product_id }}">
+                <button type="submit" class="btn-link remove-btn">Eliminar</button>
+              </form>
+
+            </div>
+
+          </div>
+
+          <!-- Subtotal -->
+          <div class="item-subtotal">
+            <span>Subtotal</span>
+            <strong>
+              $<span class="subtotal">{{ '%.2f'|format(item.quantity * item.price) }}</span>
+            </strong>
+          </div>
+
+        </article>
+        {% endfor %}
+      {% else %}
+        <p class="empty">Tu carrito está vacío. <a href="/">Ver productos</a></p>
+      {% endif %}
+    </div>
+
+    <!-- Resumen -->
+    <aside class="cart-summary">
+      <div class="summary-card">
+
+        <h2>Resumen</h2>
+
+        <div class="summary-row">
+          <span>Productos</span>
+          <span id="summary-count">{{ items|length }}</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>$<span id="summary-subtotal">
+            {{ '%.2f'|format(items|sum(attribute='price')) }}
+          </span></span>
+        </div>
+
+        <div class="summary-row">
+          <span>Envío</span>
+          <span>$<span id="summary-shipping">0.00</span></span>
+        </div>
+
+        <div class="summary-total">
+          <span>Total</span>
+          <strong>
+            $<span id="summary-total">
+              {{ '%.2f'|format(items|sum(attribute='price')) }}
+            </span>
+          </strong>
+        </div>
+
+        <div class="actions">
+          <form method="post" action="/orders/checkout">
+
+              <button id="checkout-btn" class="btn primary">Pagar</button>
+
+
+          </form>
+          <a href="/products" class="btn secondary">Seguir comprando</a>
+        </div>
+
+      </div>
+    </aside>
+
+  </section>
+</div>
+
+{% endblock %}

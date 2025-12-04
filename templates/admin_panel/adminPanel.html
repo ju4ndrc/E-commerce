@@ -1,86 +1,68 @@
+{% extends "base.html" %}
 
-{%block css%} <link href="{{ url_for('static', path='/adminPanel.css') }}" rel="stylesheet"> {%endblock%}
-{%block content%}
-<body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Panel Admin</h2>
-        <div class="menu">
-            <a href="#" class="active">Dashboard</a>
-            <a href="#">Usuarios</a>
-            <a href="#">Productos</a>
-            <a href="#">Ventas</a>
-            <a href="#">Ajustes</a>
-        </div>
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', path='/adminPanel.css') }}">
+{% endblock %}
+
+
+
+{% block content %}
+
+<header class="topbar">
+    <div class="search">
+        <input type="text" placeholder="Search for data & reports...">
+        <button>🔍</button>
     </div>
 
-    <!-- Main -->
-    <div class="main">
-        <div class="topbar">
-            <h1>Dashboard</h1>
-            <div>👤 Admin</div>
+    <div class="topbar-right">
+            <div class="user-box">
+            <img src="{{ user.img }}" class="avatar">
+            <span class="username">{{ user.username }}</span>
         </div>
+    </div>
+</header>
 
-        <!-- Dashboard Cards -->
-        <div class="card-grid">
-            <div class="card">
-                <h3>Usuarios</h3>
-                <p>1520</p>
-            </div>
-            <div class="card">
-                <h3>Ventas</h3>
-                <p>$38,200</p>
-            </div>
-            <div class="card">
-                <h3>Pedidos</h3>
-                <p>297</p>
-            </div>
-            <div class="card">
-                <h3>Soporte</h3>
-                <p>14 tickets</p>
-            </div>
-        </div>
+<main>
 
-        <!-- Table -->
-        <div class="table-section">
-            <h2>Últimos pedidos</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Producto</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#1021</td>
-                        <td>María López</td>
-                        <td>Mouse Gamer</td>
-                        <td>$45.00</td>
-                        <td>Enviado</td>
-                    </tr>
-                    <tr>
-                        <td>#1020</td>
-                        <td>Carlos Pérez</td>
-                        <td>Teclado Mecánico</td>
-                        <td>$89.00</td>
-                        <td>Pendiente</td>
-                    </tr>
-                    <tr>
-                        <td>#1019</td>
-                        <td>Ana Torres</td>
-                        <td>Pantalla 24"</td>
-                        <td>$199.00</td>
-                        <td>Completado</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="title-row">
+        <h1>Overview</h1>
+        <a href="/users/logout">
+        <button class="add-btn">Cerrar session</button>
+            </a>
+    </div>
+
+    <div class="cards">
+
+        <a href="/users" class="card gradient-1">
+            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+  <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+</svg></div>
+            <div class="number">Usuarios</div>
+            <div class="label">members online</div>
+        </a>
+
+        <a href="/products/new" class="card gradient-2">
+            <div class="icon">🛒</div>
+            <div class="number">Productos</div>
+            <div class="label"></div>
+        </a>
+
+        <a href="/admin/orders" class="card gradient-3">
+            <div class="icon">📅</div>
+            <div class="number"></div>
+            <div class="label">this week</div>
+        </a>
+
+        <a href="/admin/earnings" class="card gradient-4">
+            <div class="icon">💲</div>
+            <div class="number">stat</div>
+            <div class="label">total earnings</div>
+        </a>
 
     </div>
-</body>
 
-{%endblock%}
+</main>
+
+{% endblock %}

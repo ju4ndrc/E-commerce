@@ -1,3 +1,5 @@
+from itertools import product
+
 from fastapi import APIRouter, Request, HTTPException, status, File, UploadFile, Form
 from sqlmodel import select
 from db import SessionDep
@@ -16,6 +18,20 @@ async def list_products(request: Request,session: SessionDep):
     result = await session.execute(select(Product))
     products = result.scalars().all()
     return templates.TemplateResponse("home.html",{"request": request, "products": products})
+
+@router.get("/products",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+async def products_page(request:Request,session: SessionDep):
+    result = await session.execute(select(Product))
+    products = result.scalars().all()
+    return templates.TemplateResponse("products_components/products.html",{"request": request,"products": products})
+@router.get("/products",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+async def products_filter(request: Request, session: SessionDep, search:str =""):
+    query = select(product)
+    if search:
+        query = query.where(Product.name.ilike(f"%{search}%"))
+    products = await session.execute(query)
+    return templates.TemplateResponse("products_components/products.html",{"request": request,"products": products ,"search":search})
+
 @router.get("/products/new",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
 async def show_create(request: Request,session: SessionDep):
     result = await session.execute(select(Product))

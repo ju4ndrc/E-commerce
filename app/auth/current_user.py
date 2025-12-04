@@ -1,4 +1,6 @@
 from fastapi import Depends,HTTPException,status,Request
+from fastapi.responses import RedirectResponse
+
 from db import SessionDep
 from app.auth.authenticate import oauth2_scheme, get_user
 from app.auth.validation import decode_token
@@ -8,7 +10,7 @@ from models import User, RoleEnum
 async def get_current_user(request:Request,session:SessionDep) -> User:
     token = request.cookies.get("Authorization")
     if not token:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        return RedirectResponse(url="/login")
     payload = decode_token(token)
     email = payload.get('email')
     if email is None:

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', path='/customer_products.css') }}">
+{% endblock %}
+{% block navbar %} {%include 'components/headerComponent.html'%} {% endblock %}
+{% block content %}
+
+<div class="customer-wrapper">
+
+    <h2>Productos disponibles</h2>
+
+    <form class="filter-box" method="get" action="/products">
+    <input type="text" name="search" placeholder="Buscar producto..." value="{{ search }}">
+    <button type="submit">Buscar</button>
+</form>
+
+    {%include 'components/card_productsComponent.html'%}}
+
+</div>
+
+{% endblock %}
