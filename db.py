@@ -37,20 +37,13 @@ DB_PASSWORD = os.getenv("POSTGRESQL_ADDON_PASSWORD")
 DB_HOST = os.getenv("POSTGRESQL_ADDON_HOST")
 DB_PORT = os.getenv("POSTGRESQL_ADDON_PORT")
 
-CLEVER_URL = (f"postgresql+asyncpg://{DB_USER}.efkhgpbtnzebatbsmfqv:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+CLEVER_URL = (f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 
 
 engine_clever: AsyncEngine = create_async_engine(
     CLEVER_URL,
     echo=True,
-    engine = create_async_engine(
-    DATABASE_URL,
-    echo=False,
-    connect_args={
-        "statement_cache_size": 0,
-        "prepared_statement_cache_size": 0
-    }
-)
+
 )
 async_session = sessionmaker(engine_clever, expire_on_commit=False, class_=AsyncSession)
 
