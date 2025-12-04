@@ -11,9 +11,7 @@ router = APIRouter(prefix="/cart", tags=["Cart"])
 templates = Jinja2Templates(directory="templates")
 
 
-# ------------------------
-# VER CARRITO HTML
-# ------------------------
+
 @router.get("/view")
 async def view_cart(request: Request, session: SessionDep, user: User = Depends(get_current_user)):
 
@@ -53,9 +51,7 @@ async def view_cart(request: Request, session: SessionDep, user: User = Depends(
     )
 
 
-# ------------------------
-# OBTENER CARRITO JSON
-# ------------------------
+
 @router.get("/", response_model=list[dict])
 async def get_cart(session: SessionDep, user: User = Depends(get_current_user)):
 
@@ -105,13 +101,12 @@ async def add_to_cart(
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
 
-    # Buscar carrito
+
     result = await session.execute(
         select(Cart).where(Cart.customer_id == user.id, Cart.is_active == True)
     )
     cart = result.scalars().first()
-    if not result:
-        raise RedirectResponse(url="/users/login", status_code=303)
+
 
     if not cart:
         cart = Cart(customer_id=user.id)
