@@ -190,7 +190,7 @@ CLEVER_DATABASE=tu_database
 
 5. **Ejecutar la aplicación**
 ```bash
-uvicorn main:app --reload
+fastapi dev app/main.py
 ```
 
 
