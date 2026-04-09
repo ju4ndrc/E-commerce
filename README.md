@@ -176,16 +176,19 @@ pip install -r requirements.txt
 4. **Configurar variables de entorno**
 ```bash
 # Crear archivo .env
-NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_key
-SUPABASE_BUCKET=tu_bucket_name
-
-# Base de datos (opcional)
-CLEVER_USER=tu_usuario
-CLEVER_PASSWORD=tu_password
-CLEVER_HOST=tu_host
-CLEVER_PORT=tu_puerto
-CLEVER_DATABASE=tu_database
+SUPABASE_URL=key
+SUPABASE_KEY=key
+SUPABASE_BUCKET=key
+SECRET_KEY=key
+ALGORITHM=key
+POSTGRESQL_ADDON_DB=key
+POSTGRESQL_ADDON_USER=key
+POSTGRESQL_ADDON_PASSWORD=key
+POSTGRESQL_ADDON_HOST=key
+POSTGRESQL_ADDON_PORT=key
+SUPERUSER_EMAIL=key
+SUPERUSER_PASS=key
+SUPERUSER_NAME=key
 ```
 
 5. **Ejecutar la aplicación**
